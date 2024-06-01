@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Sentence Template</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Customizable Sentence Template</h1>
+
+        <div class="new-template-section mt-5">
+            <h2>Create New Template</h2>
+            <textarea id="newTemplate" class="form-control mb-3" placeholder="Enter your sentence template here. Use &lt;word&gt; for replaceable words."></textarea>
+            <button class="btn btn-primary" onclick="addTemplate()">Add Template</button>
+        </div>
+
+        <div class="template-section mt-5">
+            <h2>Templates</h2>
+            <select id="templateSelect" class="form-control mb-3" onchange="loadTemplate()">
+                <option value="">Select a template</option>
+            </select>
+            <div id="templateDisplay" class="mb-3"></div>
+            <div id="inputFields" class="form-group"></div>
+            <div class="buttons mb-3">
+                <button class="btn btn-secondary" onclick="updateTemplate()">Apply</button>
+                <button class="btn btn-info" onclick="copyTemplate()">Copy</button>
+                <button class="btn btn-success" onclick="saveTemplate()">Save</button>
+                <button class="btn btn-danger" onclick="deleteTemplate()">Delete</button>
+                <button class="btn btn-warning" onclick="resetTemplates()">Reset</button>
+            </div>
+        </div>
+        <textarea id="savedTemplate" class="form-control" readonly></textarea>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
