@@ -1,4 +1,6 @@
 let templates = [];
+document.getElementById('templateDisplay').innerHTML = "No template selected"
+document.getElementById('inputFields').innerHTML = "No template selected"
 
 // Load templates from localStorage on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,7 +22,7 @@ function addTemplate() {
 
 function updateTemplateSelect() {
     const templateSelect = document.getElementById('templateSelect');
-    templateSelect.innerHTML = '<option value="">Select a template</option>';
+    templateSelect.innerHTML = '<option value="99" selected disabled>Select a template</option>';
     templates.forEach((template, index) => {
         const option = document.createElement('option');
         option.value = index;
@@ -36,8 +38,8 @@ function loadTemplate() {
         document.getElementById('templateDisplay').innerHTML = template;
         generateInputFields(template);
     } else {
-        document.getElementById('templateDisplay').innerHTML = '';
-        document.getElementById('inputFields').innerHTML = '';
+        document.getElementById('templateDisplay').innerHTML = "No template selected"
+        document.getElementById('inputFields').innerHTML = "No template selected"
     }
 }
 
@@ -49,17 +51,16 @@ function generateInputFields(template) {
 
     while ((match = regex.exec(template)) !== null) {
         const div = document.createElement('div');
-        div.className = 'form-group';
+        div.className = 'flex flex-col';
 
         const label = document.createElement('label');
-        label.textContent = match[1] + ':';
-        label.className = 'mr-2';
+        label.textContent = titleCase(match[1]);
 
         const input = document.createElement('input');
         input.type = 'text';
         input.id = match[1];
         input.placeholder = 'Enter ' + match[1];
-        input.className = 'form-control';
+        input.className = 'w-full rounded-md border-gray-200 px-3 py-2 border border-zinc-200';
 
         div.appendChild(label);
         div.appendChild(input);
@@ -106,16 +107,18 @@ function deleteTemplate() {
     templates.splice(templateIndex, 1);
     saveTemplatesToLocalStorage();
     updateTemplateSelect();
-    document.getElementById('templateDisplay').innerHTML = '';
-    document.getElementById('inputFields').innerHTML = '';
+    document.getElementById('templateDisplay').innerHTML = "No template selected"
+    document.getElementById('inputFields').innerHTML = "No template selected"
 }
 
 function resetTemplates() {
-    templates = [];
-    saveTemplatesToLocalStorage();
-    updateTemplateSelect();
-    document.getElementById('templateDisplay').innerHTML = '';
-    document.getElementById('inputFields').innerHTML = '';
+    //templates = [];
+    //saveTemplatesToLocalStorage();
+    //updateTemplateSelect();
+    var templateIndex = document.getElementById('templateSelect');
+    templateIndex.selectedIndex = 0
+    document.getElementById('templateDisplay').innerHTML = "No template selected"
+    document.getElementById('inputFields').innerHTML = "No template selected"
 }
 
 function saveTemplatesToLocalStorage() {
@@ -127,4 +130,8 @@ function loadTemplatesFromLocalStorage() {
     if (storedTemplates) {
         templates = JSON.parse(storedTemplates);
     }
+}
+
+function titleCase(str) {
+  return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
 }

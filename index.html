@@ -4,41 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customizable Sentence Template</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: "Bricolage Grotesque", sans-serif;
+            font-optical-sizing: auto;
+        }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Customizable Sentence Template</h1>
-
-        <div class="new-template-section mt-5">
-            <h2>Create New Template</h2>
-            <textarea id="newTemplate" class="form-control mb-3" placeholder="Enter your sentence template here. Use &lt;word&gt; for replaceable words."></textarea>
-            <button class="btn btn-primary" onclick="addTemplate()">Add Template</button>
+<body class="bg-zinc-100 pb-3 px-3 pt-5">
+    <main class="w-full max-w-screen-md mx-auto bg-white p-8 rounded-3xl shadow-2xl space-y-5">
+        <div class="flex flex-col items-center pb-10">
+            <h1 class="text-4xl font-bold">Customizable Sentence Template</h1>
         </div>
 
-        <div class="template-section mt-5">
-            <h2>Templates</h2>
-            <select id="templateSelect" class="form-control mb-3" onchange="loadTemplate()">
-                <option value="">Select a template</option>
-            </select>
-            <div id="templateDisplay" class="mb-3"></div>
-            <div id="inputFields" class="form-group"></div>
-            <div class="buttons mb-3">
-                <button class="btn btn-secondary" onclick="updateTemplate()">Apply</button>
-                <button class="btn btn-info" onclick="copyTemplate()">Copy</button>
-                <button class="btn btn-success" onclick="saveTemplate()">Save</button>
-                <button class="btn btn-danger" onclick="deleteTemplate()">Delete</button>
-                <button class="btn btn-warning" onclick="resetTemplates()">Reset</button>
+        <div class="new-template-section">
+            <h2 class="text-xl font-semibold">Create New Template</h2>
+            <textarea id="newTemplate" class="w-full rounded-md border-gray-200 px-3 py-2 border border-zinc-200" placeholder="Enter your sentence template here. Use &lt;word&gt; for replaceable words."></textarea>
+            <div class="flex justify-end">
+                <button onclick="addTemplate()" class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white">Add Template</button>
             </div>
         </div>
-        <textarea id="savedTemplate" class="form-control" readonly></textarea>
+        
+        <hr/>
+
+        <div class="template-section space-y-3">
+            <div class="space-y-2">
+                <div class="bg-zinc-100 px-6 py-4 rounded-lg">
+                    <div id="templateDisplay"></div>
+                </div>
+                <div class="flex justify-end">
+                    <button onclick="copyTemplate()" class="inline-block rounded-lg bg-teal-500 px-5 py-3 text-sm font-medium text-white flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                        </svg>
+                        <p>Copy</p>
+                    </button>
+                </div>
+            </div>
+            
+            <hr/>
+            
+            <div>
+                <p class="font-semibold">Your saved templates</p>
+                <select id="templateSelect" onchange="loadTemplate()" class="w-full rounded-md border-gray-200 px-3 py-2 border border-zinc-200">
+                    <option value="">Select a template</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <div>
+                    <p class="font-semibold">Your variables</p>
+                    <div class="input-fields space-y-2" id="inputFields"></div>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button onclick="updateTemplate()" class="inline-block rounded-lg bg-indigo-500 px-5 py-3 text-sm font-medium text-white flex items-center space-x-2">Apply</button>
+                    <button onclick="deleteTemplate()" class="inline-block rounded-lg bg-red-500 px-5 py-3 text-sm font-medium text-white flex items-center space-x-2">Delete</button>
+                    <button onclick="resetTemplates()" class="inline-block rounded-lg bg-gray-500 px-5 py-3 text-sm font-medium text-white flex items-center space-x-2">Reset</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
